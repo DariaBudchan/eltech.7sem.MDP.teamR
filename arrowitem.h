@@ -5,6 +5,8 @@
  *Класс связи(стрелки)
  */
 
+#include <QGraphicsItem>
+
 class ArrowItem : public QGraphicsLineItem
 {
 public:

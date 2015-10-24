@@ -5,6 +5,8 @@
  *Класс перехода
  */
 
+#include <QGraphicsPolygonItem>
+
 class ProcessItem : public QGraphicsPolygonItem
 {
 public:

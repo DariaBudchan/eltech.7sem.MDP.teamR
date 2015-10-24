@@ -5,6 +5,8 @@
  *Класс места
  */
 
+#include <QGraphicsEllipseItem>
+
 class ConditionItem : public QGraphicsEllipseItem
 {
 public:

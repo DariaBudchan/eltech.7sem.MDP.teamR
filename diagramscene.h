@@ -5,6 +5,8 @@
  *Класс сцены
  */
 
+#include <QGraphicsScene>
+
 class DiagramScene : public QGraphicsScene
 {
 public:
