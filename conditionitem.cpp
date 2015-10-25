@@ -7,7 +7,7 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
     this->setBrush(QColor::fromRgbF(0.2,0.2,0.2));
     this->setPen(QPen(QColor::fromRgbF(0,0,0)));
     setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 

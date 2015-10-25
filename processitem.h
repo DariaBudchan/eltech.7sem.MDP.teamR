@@ -5,12 +5,14 @@
  *Класс перехода
  */
 
-#include <QGraphicsPolygonItem>
+#include <QGraphicsRectItem>
+#include <QGraphicsItem>
+#include <QPainter>
 
-class ProcessItem : public QGraphicsPolygonItem
+class ProcessItem : public QGraphicsRectItem
 {
 public:
-    ProcessItem();
+    ProcessItem(QGraphicsItem* parent = 0);
     ~ProcessItem();
 };
 

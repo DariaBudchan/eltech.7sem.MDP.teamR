@@ -9,6 +9,7 @@
 #include <QObject>
 
 #include "conditionitem.h"
+#include "processitem.h"
 
 class DiagramScene : public QGraphicsScene
 {
