@@ -2,14 +2,18 @@
 #include <QApplication>
 #include <QMessageBox>
 
+#include "diagramscene.h"
+#include <QGraphicsView>
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    QMessageBox messageBox;
-    messageBox.critical(0,"Igor","I can commit Project !");
-    messageBox.setFixedSize(500,200);
-    w.show();
-
+    /*MainWindow w;
+    w.show();*/
+    DiagramScene* scene = new DiagramScene();
+    scene->setSceneRect(0,0,1000,1000);
+    QGraphicsView* view = new QGraphicsView();
+    view->setScene(scene);
+    view->show();
     return a.exec();
 }

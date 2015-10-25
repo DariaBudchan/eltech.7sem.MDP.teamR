@@ -6,11 +6,13 @@
  */
 
 #include <QGraphicsScene>
+#include <QObject>
 
 class DiagramScene : public QGraphicsScene
 {
+    Q_OBJECT
 public:
-    DiagramScene();
+    DiagramScene(QObject* parent = 0);
     ~DiagramScene();
 };
 
