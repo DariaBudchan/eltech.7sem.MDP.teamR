@@ -6,11 +6,14 @@
  */
 
 #include <QGraphicsEllipseItem>
+#include <QGraphicsItem>
+#include <QPainter>
 
 class ConditionItem : public QGraphicsEllipseItem
 {
+
 public:
-    ConditionItem();
+    ConditionItem(QGraphicsItem* parent = 0);
     ~ConditionItem();
 };
 

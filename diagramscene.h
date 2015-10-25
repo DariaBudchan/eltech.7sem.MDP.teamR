@@ -8,6 +8,8 @@
 #include <QGraphicsScene>
 #include <QObject>
 
+#include "conditionitem.h"
+
 class DiagramScene : public QGraphicsScene
 {
     Q_OBJECT
