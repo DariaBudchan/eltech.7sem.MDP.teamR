@@ -11,7 +11,7 @@
 
 class ConditionItem : public QGraphicsEllipseItem
 {
-
+    enum {Type = UserType+2};
 public:
     ConditionItem(QGraphicsItem* parent = 0);
     ~ConditionItem();

@@ -8,12 +8,20 @@ DiagramScene::DiagramScene(QObject *parent)
     this->addItem(ellipse);
 
     ProcessItem* rectangle = new ProcessItem();
-    rectangle->setPos(52,100);
+    rectangle->setPos(200,200);
     this->addItem(rectangle);
+
+    ArrowItem* arrow = new ArrowItem(rectangle, ellipse);
+    this->addItem(arrow);
+    arrow->updatePosition();
 }
 
 DiagramScene::~DiagramScene()
 {
 
+}
+
+void DiagramScene::itemChanged(QGraphicsItem* item){
+    emit itemSelected(item);
 }
 

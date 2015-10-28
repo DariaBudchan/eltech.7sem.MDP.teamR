@@ -10,6 +10,7 @@
 
 #include "conditionitem.h"
 #include "processitem.h"
+#include "arrowitem.h"
 
 class DiagramScene : public QGraphicsScene
 {
@@ -17,6 +18,10 @@ class DiagramScene : public QGraphicsScene
 public:
     DiagramScene(QObject* parent = 0);
     ~DiagramScene();
+public slots:
+    void itemChanged(QGraphicsItem* item); //если выбранный объект меняется, должен вызваться этот слот
+signals:
+    void itemSelected(QGraphicsItem* item);
 };
 
 #endif // DIAGRAMSCENE_H
