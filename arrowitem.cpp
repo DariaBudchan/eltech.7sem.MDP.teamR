@@ -1,5 +1,7 @@
 #include "arrowitem.h"
 #include "diagramscene.h"
+#include "conditionitem.h"
+#include "processitem.h"
 
 #define PI 3.1415
 
@@ -7,8 +9,6 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     if (startItem->collidesWithItem(endItem))
         return;
-
-    qDebug() << startItem->pos().x() << ";" << startItem->pos().y() << " " << endItem->pos().x() << ";" << endItem->pos().y() << "\n";
 
     painter->setPen(pen());
     painter->setBrush(Qt::black);
@@ -50,7 +50,7 @@ ArrowItem::ArrowItem(QGraphicsItem* start, QGraphicsItem* end, QGraphicsItem* pa
     endItem = end;
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    //this->setZValue(-1000);
+    this->setZValue(1000);
 }
 
 QRectF ArrowItem::boundingRect() const
