@@ -8,6 +8,7 @@ DiagramScene::DiagramScene(QObject *parent)
     this->addItem(ellipse);
 
     ProcessItem* rectangle = new ProcessItem();
+    rectangle->setPos(52,100);
     this->addItem(rectangle);
 }
 
