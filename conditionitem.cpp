@@ -45,7 +45,11 @@ void ConditionItem::removeArrow(ArrowItem *arrow)
 
 void ConditionItem::removeArrows()
 {
-    //must be ended
+    foreach (ArrowItem *arrow, arrows) {
+        arrow->disconnect();
+        scene()->removeItem(arrow);
+        delete arrow;
+    }
 }
 
 void ConditionItem::addArrow(ArrowItem *arrow)
