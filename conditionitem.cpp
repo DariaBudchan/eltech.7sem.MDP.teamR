@@ -5,7 +5,7 @@
 ConditionItem::ConditionItem(QGraphicsItem *parent)
     :QGraphicsEllipseItem(parent)
 {
-    this->setRect(-20,-20,40,40);
+    this->setRect(-25,-25,50,50);
     this->setBrush(QColor::fromRgbF(0.9,0.9,0.9));
     this->setPen(QPen(QColor::fromRgbF(0,0,0)));
     setFlag(QGraphicsItem::ItemIsMovable, true);

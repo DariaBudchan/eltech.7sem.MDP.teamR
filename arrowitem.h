@@ -18,6 +18,7 @@
 class ArrowItem : public QGraphicsLineItem
 {
     enum {Type = UserType + 3};
+    enum ArrowType{fromCondition, toCondition};
     QGraphicsItem* startItem;
     QGraphicsItem* endItem;
     QPolygonF arrowHead;
@@ -31,6 +32,8 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     QGraphicsItem* getStart(){return startItem;}
     QGraphicsItem* getEnd(){return endItem;}
+    ArrowType arrowType();
+    void disconnect();
     void updatePosition();
     ~ArrowItem();
 };

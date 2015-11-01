@@ -14,6 +14,14 @@ DiagramScene::DiagramScene(QObject *parent)
     ArrowItem* arrow = new ArrowItem(rectangle, ellipse);
     this->addItem(arrow);
     arrow->updatePosition();
+
+    ConditionItem* ellipse2 = new ConditionItem();
+    ellipse2->setPos(100, 300);
+    this->addItem(ellipse2);
+
+    ArrowItem* arrow2 = new ArrowItem(ellipse2, rectangle);
+    this->addItem(arrow2);
+    arrow2->updatePosition();
 }
 
 DiagramScene::~DiagramScene()

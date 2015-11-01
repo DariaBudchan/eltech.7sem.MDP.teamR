@@ -13,9 +13,41 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(pen());
     painter->setBrush(Qt::black);
     painter->drawLine(this->line());
-    qreal arrowSize = 8;
+    qreal arrowSize = 9;
 
-    setLine(startItem->pos().x(), startItem->pos().y(), endItem->pos().x(), endItem->pos().y());
+    if(ConditionItem* cs = dynamic_cast<ConditionItem*> (endItem)){
+        QPointF endPoint = cs->pos();
+        QPointF startPoint = startItem->pos();
+        double dy = endPoint.y() - startPoint.y();
+        double dx = endPoint.x() - startPoint.x();
+        double line_length = sqrt(pow(dx,2) + pow(dy,2));
+        double _cos = dx/line_length;
+        double _sin = dy/line_length;
+        endPoint = endPoint-QPointF(25*_cos, 25*_sin);
+        setLine(endPoint.x(), endPoint.y(), startPoint.x(), startPoint.y());
+    }
+
+    if(ProcessItem* ps = dynamic_cast<ProcessItem*> (endItem)){
+        QPointF endPoint = ps->pos();
+        QPointF startPoint = startItem->pos();
+        QPolygonF poly = QPolygonF(ps->rect());
+        QLineF polyLine;
+        QPointF intersectPoint, p1, p2;
+
+        for(int i = 1; i < poly.count(); i++){
+            p1 = poly.at(i-1) + ps->pos();
+            p2 = poly.at(i) + ps->pos();
+            polyLine = QLineF(p1,p2);
+            QLineF::IntersectType intersectType = polyLine.intersect(this->line(), &intersectPoint);
+            if(intersectType == QLineF::BoundedIntersection){
+                endPoint = intersectPoint;
+                break;
+            }
+        }
+
+        setLine(endPoint.x(), endPoint.y(), startPoint.x(), startPoint.y());
+    }
+
 
     double angle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0)
@@ -50,7 +82,7 @@ ArrowItem::ArrowItem(QGraphicsItem* start, QGraphicsItem* end, QGraphicsItem* pa
     endItem = end;
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    this->setZValue(1000);
+    this->setZValue(-1000);
 }
 
 QRectF ArrowItem::boundingRect() const
@@ -68,6 +100,35 @@ QPainterPath ArrowItem::shape() const
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(arrowHead);
     return path;
+}
+
+ArrowItem::ArrowType ArrowItem::arrowType()
+{
+    if(dynamic_cast<ConditionItem*> (startItem)){
+        return fromCondition;
+    }
+    else{
+        return toCondition;
+    }
+}
+
+void ArrowItem::disconnect()
+{
+    if(ConditionItem* cs = dynamic_cast<ConditionItem*> (startItem)){
+        cs->removeArrow(this);
+    }
+    else
+        if(ProcessItem* ps = dynamic_cast<ProcessItem*> (startItem)){
+
+        }
+
+    if(ConditionItem* ce = dynamic_cast<ConditionItem*> (endItem)){
+        ce->removeArrow(this);
+    }
+    else
+        if(ProcessItem* pe = dynamic_cast<ProcessItem*> (endItem)){
+
+        }
 }
 
 void ArrowItem::updatePosition()
