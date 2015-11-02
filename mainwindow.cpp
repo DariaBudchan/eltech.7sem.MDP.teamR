@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new DiagramScene();
     scene->setSceneRect(0,0,1500,1500);
+    scene->setMode(DiagramScene::Line);
     view = new QGraphicsView(this);
     view->setScene(scene);
 

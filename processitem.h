@@ -11,8 +11,8 @@
 
 class ProcessItem : public QGraphicsRectItem
 {
-    enum {Type = UserType+1};
 public:
+    enum {Type = UserType+1};
     ProcessItem(QGraphicsItem* parent = 0);
     ~ProcessItem();
 };

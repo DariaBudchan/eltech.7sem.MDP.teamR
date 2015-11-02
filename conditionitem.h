@@ -13,10 +13,10 @@
 
 class ConditionItem : public QGraphicsEllipseItem
 {
-    enum {Type = UserType+2};
     unsigned int current_value;
     QList<ArrowItem*> arrows;
 public:
+    enum {Type = UserType+2};
     ConditionItem(QGraphicsItem* parent = 0);
     int type() const Q_DECL_OVERRIDE {return Type;}
     void increaseValue();
