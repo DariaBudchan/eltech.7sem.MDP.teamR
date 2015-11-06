@@ -62,6 +62,7 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     arrowHead << line().p1() << arrowP1 << arrowP2;
 
     painter->drawPolygon(arrowHead);
+
 }
 
 QVariant ArrowItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -119,7 +120,7 @@ void ArrowItem::disconnect()
     }
     else
         if(ProcessItem* ps = dynamic_cast<ProcessItem*> (startItem)){
-
+            ps->removeArrow(this);
         }
 
     if(ConditionItem* ce = dynamic_cast<ConditionItem*> (endItem)){
@@ -127,7 +128,7 @@ void ArrowItem::disconnect()
     }
     else
         if(ProcessItem* pe = dynamic_cast<ProcessItem*> (endItem)){
-
+            pe->removeArrow(this);
         }
 }
 
