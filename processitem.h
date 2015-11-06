@@ -19,15 +19,12 @@ public:
     enum {Type = UserType+1};
     ProcessItem(QGraphicsItem* parent = 0);
     int type() const Q_DECL_OVERRIDE {return Type;}
-    void increaseValue();
-    void decreaseValue();
-    void setValue(unsigned int value);
-    unsigned int getValue();
 
     void removeArrow(ArrowItem* arrow);
     void removeArrows();
     void addArrow(ArrowItem* arrow);
-
+    QList<ArrowItem*> arrowsFromCondition();
+    QList<ArrowItem*> arrowsToCondition();
     void updateItem();
     ~ProcessItem();
 protected:

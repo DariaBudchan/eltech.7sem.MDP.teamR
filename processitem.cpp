@@ -17,28 +17,6 @@ ProcessItem::~ProcessItem()
 
 }
 
-void ProcessItem::increaseValue()
-{
-    current_value++;
-}
-
-void ProcessItem::decreaseValue()
-{
-    if(current_value != 0){
-        current_value--;
-    }
-}
-
-void ProcessItem::setValue(unsigned int value)
-{
-    current_value = value;
-}
-
-unsigned int ProcessItem::getValue()
-{
-    return current_value;
-}
-
 void ProcessItem::removeArrow(ArrowItem *arrow)
 {
     int index = arrows.indexOf(arrow);
@@ -85,3 +63,24 @@ QVariant ProcessItem::itemChange(QGraphicsItem::GraphicsItemChange change, const
     return value;
 }
 
+QList<ArrowItem*> ProcessItem::arrowsFromCondition()
+{
+    QList<ArrowItem*> list;
+    foreach (ArrowItem *arrow, arrows) {
+        if(arrow->arrowType() == ArrowItem::fromCondition) {
+            list.append(arrow);
+        }
+    }
+    return list;
+}
+
+QList<ArrowItem*> ProcessItem::arrowsToCondition()
+{
+    QList<ArrowItem*> list;
+    foreach (ArrowItem *arrow, arrows) {
+        if(arrow->arrowType() == ArrowItem::toCondition) {
+            list.append(arrow);
+        }
+    }
+    return list;
+}
