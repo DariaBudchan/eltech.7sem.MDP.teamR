@@ -85,13 +85,9 @@ void ConditionItem::contectDraw(unsigned int value)
     }
 
     if(value >= 5){
-        QGraphicsTextItem* text = new QGraphicsTextItem(QString::number(value));
+        TextItem* text = new TextItem(30,30,QString::number(value));
         text->setParentItem(this);
-        text->setPos(-10,-18);
-        QFont font = QFont("Arial");
-        font.setPixelSize(25);
-        font.setBold(true);
-        text->setFont(font);
+        text->setPos(0,0);
         return;
     }
 

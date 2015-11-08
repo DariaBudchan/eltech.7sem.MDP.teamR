@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include "arrowitem.h"
+#include "textitem.h"
 
 class ConditionItem : public QGraphicsEllipseItem
 {
