@@ -94,7 +94,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             if(ProcessItem* spi = dynamic_cast<ProcessItem*> (startItems.first())){
                 if(ConditionItem* eci = dynamic_cast<ConditionItem*> (endItems.first())){
                     ArrowItem* arrow = new ArrowItem(spi, eci);
-                    eci->addArrow(arrow);
+                    spi->addArrow(arrow);
                     eci->addArrow(arrow);
                     arrow->updatePosition();
                     addItem(arrow);
