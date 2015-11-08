@@ -1,10 +1,12 @@
 #include "conditionitem.h"
 #include "diagramscene.h"
 
+#define PI 3.1415
 
 ConditionItem::ConditionItem(QGraphicsItem *parent)
     :QGraphicsEllipseItem(parent)
 {
+    current_value = 0;
     this->setRect(-25,-25,50,50);
     this->setBrush(QColor::fromRgbF(0.9,0.9,0.9));
     this->setPen(QPen(QColor::fromRgbF(0,0,0)));
@@ -16,6 +18,7 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
 void ConditionItem::increaseValue()
 {
     current_value++;
+    contectDraw(current_value);
 }
 
 void ConditionItem::decreaseValue()
@@ -23,11 +26,13 @@ void ConditionItem::decreaseValue()
     if(current_value != 0){
         current_value--;
     }
+    contectDraw(current_value);
 }
 
 void ConditionItem::setValue(unsigned int value)
 {
     current_value = value;
+    contectDraw(current_value);
 }
 
 unsigned int ConditionItem::getValue()
@@ -55,6 +60,56 @@ void ConditionItem::removeArrows()
 void ConditionItem::addArrow(ArrowItem *arrow)
 {
     arrows.append(arrow);
+}
+
+void ConditionItem::contectDraw(unsigned int value)
+{
+    QList<QGraphicsItem*> list0 = this->childItems();
+    foreach (QGraphicsItem* item, list0) {
+        delete item;
+    }
+
+    if(value == 0){
+        return;
+    }
+
+    QGraphicsEllipseItem* elitem;
+
+    if(value == 1){
+        elitem = new QGraphicsEllipseItem();
+        elitem->setParentItem(this);
+        elitem->setRect(-9,-9,18,18);
+        elitem->setBrush(QColor::fromRgbF(0,0,0));
+        elitem->setPen(QPen(QColor::fromRgbF(0,0,0)));
+        return;
+    }
+
+    if(value >= 5){
+        QGraphicsTextItem* text = new QGraphicsTextItem(QString::number(value));
+        text->setParentItem(this);
+        text->setPos(-10,-18);
+        QFont font = QFont("Arial");
+        font.setPixelSize(25);
+        font.setBold(true);
+        text->setFont(font);
+        return;
+    }
+
+    double r = 13;
+    double angle = 0;
+    double angle_step = 2*PI/value;
+    double x,y;
+
+    for(int i = 0; i < value; i++){
+        elitem = new QGraphicsEllipseItem();
+        elitem->setParentItem(this);
+        x = r*cos(angle);
+        y = r*sin(angle);
+        elitem->setRect(x-6,y-6,12,12);
+        elitem->setBrush(QColor::fromRgbF(0,0,0));
+        elitem->setPen(QPen(QColor::fromRgbF(0,0,0)));
+        angle += angle_step;
+    }
 }
 
 void ConditionItem::updateItem()

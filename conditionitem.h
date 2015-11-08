@@ -8,6 +8,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsItem>
 #include <QPainter>
+#include <math.h>
 
 #include "arrowitem.h"
 
@@ -27,6 +28,8 @@ public:
     void removeArrow(ArrowItem* arrow);
     void removeArrows();
     void addArrow(ArrowItem* arrow);
+
+    void contectDraw(unsigned int value);
 
     void updateItem();
 
