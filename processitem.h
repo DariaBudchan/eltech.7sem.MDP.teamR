@@ -25,6 +25,7 @@ public:
     void addArrow(ArrowItem* arrow);
     QList<ArrowItem*> arrowsFromCondition();
     QList<ArrowItem*> arrowsToCondition();
+    QList<ArrowItem*> getArrows();
     void updateItem();
     ~ProcessItem();
 protected:

@@ -62,6 +62,11 @@ void ConditionItem::addArrow(ArrowItem *arrow)
     arrows.append(arrow);
 }
 
+QList<ArrowItem *> ConditionItem::getArrows()
+{
+    return arrows;
+}
+
 void ConditionItem::contectDraw(unsigned int value)
 {
     QList<QGraphicsItem*> list0 = this->childItems();

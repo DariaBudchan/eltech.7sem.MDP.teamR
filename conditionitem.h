@@ -29,7 +29,7 @@ public:
     void removeArrow(ArrowItem* arrow);
     void removeArrows();
     void addArrow(ArrowItem* arrow);
-
+    QList<ArrowItem*> getArrows();
     void contectDraw(unsigned int value);
 
     void updateItem();

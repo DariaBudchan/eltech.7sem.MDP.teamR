@@ -26,7 +26,8 @@ private:
     QPointF startPoint;
 
     bool isItemChange(int type);
-    void drawItem(QGraphicsSceneMouseEvent* mouseEvent);;
+    void drawItem(QGraphicsSceneMouseEvent* mouseEvent);
+    void addArrow(QGraphicsItem* start, QGraphicsItem* end);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;

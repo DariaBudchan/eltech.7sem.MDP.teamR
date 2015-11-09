@@ -33,6 +33,63 @@ void DiagramScene::drawItem(QGraphicsSceneMouseEvent *mouseEvent)
     emit itemInserted(item);
 }
 
+void DiagramScene::addArrow(QGraphicsItem *start, QGraphicsItem *end)
+{
+    bool flag = true;
+
+    if(ConditionItem* sci = dynamic_cast<ConditionItem*> (start)){
+        if(ProcessItem* epi = dynamic_cast<ProcessItem*> (end)){
+            QList<ArrowItem*> list1 = sci->getArrows();
+            if(list1.count() > 0){
+                foreach (ArrowItem* temp_arrow, list1){
+                    if(((temp_arrow->getStart() == sci && temp_arrow->getEnd() == epi)
+                        || (temp_arrow->getStart() == epi && temp_arrow->getEnd() == sci))){
+                       flag = false;
+                       break;
+                    }
+                }
+            }
+            else{
+                flag = true;
+            }
+
+            if(flag){
+                ArrowItem* arrow = new ArrowItem(sci, epi);
+                sci->addArrow(arrow);
+                epi->addArrow(arrow);
+                arrow->updatePosition();
+                addItem(arrow);
+            }
+        }
+    }
+
+    if(ProcessItem* spi = dynamic_cast<ProcessItem*> (start)){
+        if(ConditionItem* eci = dynamic_cast<ConditionItem*> (end)){
+            QList<ArrowItem*> list1 = eci->getArrows();
+            if(list1.count() > 0){
+                foreach (ArrowItem* temp_arrow, list1){
+                    if(((temp_arrow->getStart() == spi && temp_arrow->getEnd() == eci)
+                        || (temp_arrow->getStart() == eci && temp_arrow->getEnd() == spi))){
+                       flag = false;
+                       break;
+                    }
+                }
+            }
+            else{
+                flag = true;
+            }
+
+            if(flag){
+                ArrowItem* arrow = new ArrowItem(spi, eci);
+                spi->addArrow(arrow);
+                eci->addArrow(arrow);
+                arrow->updatePosition();
+                addItem(arrow);
+            }
+        }
+    }
+}
+
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if(mouseEvent->button() != Qt::LeftButton)
@@ -82,25 +139,38 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         removeItem(line);
         delete line;
         if(startItems.count() > 0 && endItems.count() > 0){
+            addArrow(startItems.first(), endItems.first());
+        }
+       /* if(startItems.count() > 0 && endItems.count() > 0){
             if(ConditionItem* sci = dynamic_cast<ConditionItem*> (startItems.first())){
                 if(ProcessItem* epi = dynamic_cast<ProcessItem*> (endItems.first())){
-                    ArrowItem* arrow = new ArrowItem(sci, epi);
-                    sci->addArrow(arrow);
-                    epi->addArrow(arrow);
-                    arrow->updatePosition();
-                    addItem(arrow);
+                    foreach (ArrowItem* temp_arrow, sci->getArrows()) {
+                        if(!((temp_arrow->getStart() == sci && temp_arrow->getEnd() == epi) ||
+                            temp_arrow->getStart() == epi && temp_arrow->getEnd() == sci)){
+                            ArrowItem* arrow = new ArrowItem(sci, epi);
+                            sci->addArrow(arrow);
+                            epi->addArrow(arrow);
+                            arrow->updatePosition();
+                            addItem(arrow);
+                        }
+                    }
                 }
             }else
             if(ProcessItem* spi = dynamic_cast<ProcessItem*> (startItems.first())){
                 if(ConditionItem* eci = dynamic_cast<ConditionItem*> (endItems.first())){
-                    ArrowItem* arrow = new ArrowItem(spi, eci);
-                    spi->addArrow(arrow);
-                    eci->addArrow(arrow);
-                    arrow->updatePosition();
-                    addItem(arrow);
+                    foreach (ArrowItem* temp_arrow, spi->getArrows()) {
+                        if(!((temp_arrow->getStart() == spi && temp_arrow->getEnd() == eci) ||
+                            temp_arrow->getStart() == eci && temp_arrow->getEnd() == spi)){
+                            ArrowItem* arrow = new ArrowItem(spi, eci);
+                            spi->addArrow(arrow);
+                            eci->addArrow(arrow);
+                            arrow->updatePosition();
+                            addItem(arrow);
+                        }
+                    }
                 }
             }
-        }
+        }*/
     }
     line = 0;
     QGraphicsScene::mouseReleaseEvent(mouseEvent);

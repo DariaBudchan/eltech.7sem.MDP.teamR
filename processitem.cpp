@@ -84,3 +84,8 @@ QList<ArrowItem*> ProcessItem::arrowsToCondition()
     }
     return list;
 }
+
+QList<ArrowItem *> ProcessItem::getArrows()
+{
+    return arrows;
+}
