@@ -17,10 +17,12 @@ SOURCES += main.cpp\
     conditionitem.cpp \
     processitem.cpp \
     arrowitem.cpp \
-    diagramscene.cpp
+    diagramscene.cpp \
+    textitem.cpp
 
 HEADERS  += mainwindow.h \
     conditionitem.h \
     processitem.h \
     arrowitem.h \
-    diagramscene.h
+    diagramscene.h \
+    textitem.h

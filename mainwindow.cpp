@@ -130,7 +130,28 @@ void MainWindow::itemSelected(QGraphicsItem *item)
 
 void MainWindow::deleteItem()
 {
-
+    foreach (QGraphicsItem* item, scene->selectedItems()) {
+        switch (item->type()) {
+        case ArrowItem::Type:
+            if(ArrowItem* ai = dynamic_cast<ArrowItem*> (item)){
+                ai->disconnect();
+            }
+            break;
+        case ConditionItem::Type:
+            if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
+                ci->removeArrows();
+            }
+            break;
+        case ProcessItem::Type:
+            if(ProcessItem* pi = dynamic_cast<ProcessItem*> (item)){
+                pi->removeArrows();
+            }
+            break;
+        default:
+            break;
+        }
+        delete item;
+    }
 }
 
 void MainWindow::sceneMove()
@@ -145,17 +166,25 @@ void MainWindow::sceneLine()
 
 void MainWindow::conditionInc()
 {
-
+    foreach (QGraphicsItem* item, scene->selectedItems()) {
+        if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
+            ci->increaseValue();
+        }
+    }
 }
 
 void MainWindow::conditionDec()
 {
-
+    foreach (QGraphicsItem* item, scene->selectedItems()) {
+        if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
+            ci->decreaseValue();
+        }
+    }
 }
 
 void MainWindow::New()
 {
-
+    scene->clear();
 }
 
 void MainWindow::StepForward()
