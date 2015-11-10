@@ -18,11 +18,13 @@ SOURCES += main.cpp\
     processitem.cpp \
     arrowitem.cpp \
     diagramscene.cpp \
-    textitem.cpp
+    textitem.cpp \
+    petriemulator.cpp
 
 HEADERS  += mainwindow.h \
     conditionitem.h \
     processitem.h \
     arrowitem.h \
     diagramscene.h \
-    textitem.h
+    textitem.h \
+    petriemulator.h

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "petriemulator.h"
 
 QToolButton *MainWindow::createToolBoxButton(QString text, int type){
     QToolButton* button = new QToolButton;
@@ -189,12 +190,18 @@ void MainWindow::New()
 
 void MainWindow::StepForward()
 {
-
+    PetriEmulator emulator;
+    if(!emulator.isValid(scene))
+       return;
+    emulator.nextStep(scene);
+    scene->update();
 }
 
 void MainWindow::StepBack()
 {
-
+    PetriEmulator emulator;
+    if(!emulator.isValid(scene))
+        return;
 }
 
 MainWindow::MainWindow()
