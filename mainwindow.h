@@ -40,7 +40,10 @@ class MainWindow : public QMainWindow
     QAction* itemConditionDec;
     QAction* sceneNew;
     QAction* sceneStepForward;
-    QAction* sceneStepBack;
+    QAction* sceneStartEmulation;
+    QAction* sceneStopEmulation;
+
+    bool isOnWork;
 
     QToolButton* createToolBoxButton(QString text, int type);
     void deselect();
@@ -60,7 +63,8 @@ private slots:
     void conditionDec();
     void New();
     void StepForward();
-    void StepBack();
+    void StartEmulation();
+    void StopEmulation();
 public:
     MainWindow();
     ~MainWindow();

@@ -42,9 +42,12 @@ void MainWindow::createActions(){
     sceneStepForward = new QAction("Next", this);
     connect(sceneStepForward, SIGNAL(triggered()),
             this, SLOT(StepForward()));
-    sceneStepBack = new QAction("Previus", this);
-    connect(sceneStepBack, SIGNAL(triggered()),
-            this, SLOT(StepBack()));
+    sceneStartEmulation = new QAction("Start", this);
+    connect(sceneStartEmulation, SIGNAL(triggered()),
+            this, SLOT(StartEmulation()));
+    sceneStopEmulation = new QAction("Stop", this);
+    connect(sceneStopEmulation, SIGNAL(triggered()),
+            this, SLOT(StopEmulation()));
 }
 
 void MainWindow::createToolBox()
@@ -82,8 +85,9 @@ void MainWindow::createToolbars()
     condiotionToolBar->addAction(itemConditionInc);
 
     emulationToolBar = addToolBar("Emulation");
-    emulationToolBar->addAction(sceneStepBack);
     emulationToolBar->addAction(sceneStepForward);
+    emulationToolBar->addAction(sceneStartEmulation);
+    emulationToolBar->addAction(sceneStopEmulation);
 }
 
 void MainWindow::createScene()
@@ -101,11 +105,14 @@ void MainWindow::createScene()
 
 void MainWindow::itemsButtonClicked(int id)
 {
-    QList<QAbstractButton*> buttons = itemsButtonGroup->buttons();
+    /*QList<QAbstractButton*> buttons = itemsButtonGroup->buttons();
     foreach (QAbstractButton* button, buttons) {
         if(itemsButtonGroup->button(id) != button)
             button->setChecked(false);
-    }
+    }*/
+    if(isOnWork)
+        return;
+
     scene->setMode(DiagramScene::Draw);
     switch (id) {
     case ProcessItem::Type:
@@ -131,6 +138,9 @@ void MainWindow::itemSelected(QGraphicsItem *item)
 
 void MainWindow::deleteItem()
 {
+    if(isOnWork)
+        return;
+
     foreach (QGraphicsItem* item, scene->selectedItems()) {
         switch (item->type()) {
         case ArrowItem::Type:
@@ -157,16 +167,23 @@ void MainWindow::deleteItem()
 
 void MainWindow::sceneMove()
 {
+    deselect();
     scene->setMode(DiagramScene::Move);
 }
 
 void MainWindow::sceneLine()
 {
+    if(isOnWork)
+        return;
+    deselect();
     scene->setMode(DiagramScene::Line);
 }
 
 void MainWindow::conditionInc()
 {
+    if(isOnWork)
+        return;
+
     foreach (QGraphicsItem* item, scene->selectedItems()) {
         if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
             ci->increaseValue();
@@ -176,6 +193,9 @@ void MainWindow::conditionInc()
 
 void MainWindow::conditionDec()
 {
+    if(isOnWork)
+        return;
+
     foreach (QGraphicsItem* item, scene->selectedItems()) {
         if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
             ci->decreaseValue();
@@ -185,24 +205,39 @@ void MainWindow::conditionDec()
 
 void MainWindow::New()
 {
+    if(isOnWork)
+        return;
+
     scene->clear();
 }
 
 void MainWindow::StepForward()
 {
+    if(isOnWork)
+        return;
+
+    isOnWork = true;
     PetriEmulator emulator;
     if(!emulator.isValid(scene))
        return;
     emulator.nextStep(scene);
+    isOnWork = false;
     scene->update();
 }
 
-void MainWindow::StepBack()
+void MainWindow::StartEmulation()
 {
-    PetriEmulator emulator;
-    if(!emulator.isValid(scene))
+    if(isOnWork)
         return;
+
+    isOnWork = true;
 }
+
+void MainWindow::StopEmulation()
+{
+    isOnWork = false;
+}
+
 
 MainWindow::MainWindow()
 {
@@ -224,6 +259,8 @@ MainWindow::MainWindow()
     QWidget* central = new QWidget;
     central->setLayout(centralLayout);
     setCentralWidget(central);
+
+    isOnWork = false;
 }
 
 MainWindow::~MainWindow()
