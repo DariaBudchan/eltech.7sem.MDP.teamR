@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "petriemulator.h"
 
 QToolButton *MainWindow::createToolBoxButton(QString text, int type){
     QToolButton* button = new QToolButton;
@@ -36,6 +35,9 @@ void MainWindow::createActions(){
     itemConditionDec = new QAction("Decrease", this);
     connect(itemConditionDec, SIGNAL(triggered()),
             this, SLOT(conditionDec()));
+    itemConditionReset = new QAction("Rest", this);
+    connect(itemConditionReset, SIGNAL(triggered()),
+            this, SLOT(conditionReset()));
     sceneNew = new QAction("New", this);
     connect(sceneNew, SIGNAL(triggered()),
             this ,SLOT(New()));
@@ -83,6 +85,7 @@ void MainWindow::createToolbars()
     condiotionToolBar = addToolBar("Condition");
     condiotionToolBar->addAction(itemConditionDec);
     condiotionToolBar->addAction(itemConditionInc);
+    condiotionToolBar->addAction(itemConditionReset);
 
     emulationToolBar = addToolBar("Emulation");
     emulationToolBar->addAction(sceneStepForward);
@@ -203,6 +206,18 @@ void MainWindow::conditionDec()
     }
 }
 
+void MainWindow::conditionReset()
+{
+    if(isOnWork)
+        return;
+
+    foreach (QGraphicsItem* item, scene->selectedItems()) {
+        if(ConditionItem* ci = dynamic_cast<ConditionItem*> (item)){
+            ci->setValue(0);
+        }
+    }
+}
+
 void MainWindow::New()
 {
     if(isOnWork)
@@ -217,25 +232,37 @@ void MainWindow::StepForward()
         return;
 
     isOnWork = true;
-    PetriEmulator emulator;
-    if(!emulator.isValid(scene))
+    if(!emulator->isValid())
        return;
-    emulator.nextStep(scene);
+    emulator->nextStep();
     isOnWork = false;
+    emulator->setWork(false);
     scene->update();
 }
 
 void MainWindow::StartEmulation()
 {
+    sceneMove();
+
     if(isOnWork)
         return;
 
     isOnWork = true;
+    emulator->Emulate();
+    emulator->setWork(false);
+    isOnWork = false;
 }
 
 void MainWindow::StopEmulation()
 {
     isOnWork = false;
+    emulator->setWork(false);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    emulator->setWork(false);
+    qApp->quit();
 }
 
 
@@ -261,6 +288,8 @@ MainWindow::MainWindow()
     setCentralWidget(central);
 
     isOnWork = false;
+    emulator = new PetriEmulator(scene, this);
+    emulator->setWork(false);
 }
 
 MainWindow::~MainWindow()

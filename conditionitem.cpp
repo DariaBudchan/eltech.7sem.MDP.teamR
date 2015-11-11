@@ -7,6 +7,7 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
     :QGraphicsEllipseItem(parent)
 {
     current_value = 0;
+    max_value = 99;
     this->setRect(-25,-25,50,50);
     this->setBrush(QColor::fromRgbF(0.9,0.9,0.9));
     this->setPen(QPen(QColor::fromRgbF(0,0,0)));
@@ -17,7 +18,9 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
 
 void ConditionItem::increaseValue()
 {
-    current_value++;
+    if(current_value < 99){
+        current_value++;
+    }
     contectDraw(current_value);
 }
 
@@ -33,6 +36,11 @@ void ConditionItem::setValue(unsigned int value)
 {
     current_value = value;
     contectDraw(current_value);
+}
+
+unsigned int ConditionItem::maxValue()
+{
+    return max_value;
 }
 
 unsigned int ConditionItem::getValue()
@@ -74,6 +82,8 @@ void ConditionItem::contectDraw(unsigned int value)
         delete item;
     }
 
+    this->update();
+
     if(value == 0){
         return;
     }
@@ -111,6 +121,8 @@ void ConditionItem::contectDraw(unsigned int value)
         elitem->setPen(QPen(QColor::fromRgbF(0,0,0)));
         angle += angle_step;
     }
+
+    this->update();
 }
 
 void ConditionItem::updateItem()

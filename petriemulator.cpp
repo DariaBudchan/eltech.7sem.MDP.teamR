@@ -1,16 +1,17 @@
 #include "petriemulator.h"
 
-PetriEmulator::PetriEmulator(QObject *parent) : QObject(parent)
+PetriEmulator::PetriEmulator(DiagramScene* scene, QObject *parent)
+    : QObject(parent)
 {
-
+    this->scene = scene;
 }
 
 PetriEmulator::~PetriEmulator()
 {
-
+    _isWork = false;
 }
 
-bool PetriEmulator::isValid(DiagramScene *scene)
+bool PetriEmulator::isValid()
 {
     foreach (QGraphicsItem* item, scene->items()){
         switch (item->type()) {
@@ -34,7 +35,7 @@ bool PetriEmulator::isValid(DiagramScene *scene)
     return true;
 }
 
-void PetriEmulator::nextStep(DiagramScene *scene)
+void PetriEmulator::nextStep()
 {
     QList<ConditionItem*> readyConditions;
     readyConditions.clear();
@@ -63,6 +64,18 @@ void PetriEmulator::nextStep(DiagramScene *scene)
                 }
             }
 
+            temp_arrows = pi->arrowsToCondition();
+            foreach (ArrowItem* arrow, temp_arrows) {
+                if(ConditionItem* ci3 = dynamic_cast<ConditionItem*> (arrow->getEnd())){
+                    if(ci3->getValue() == ci3->maxValue()){
+                        flag = true;
+                        temp_conditions.clear();
+                        //_isWork = false;
+                        break;
+                    }
+                }
+            }
+
             if(flag)
                 continue;
 
@@ -76,8 +89,17 @@ void PetriEmulator::nextStep(DiagramScene *scene)
         }
     }
 
+    if(readyProcesses.count() <= 0)
+        _isWork = false;
+
     foreach (ConditionItem* ci, readyConditions){
         ci->decreaseValue();
+    }
+
+    QTime time;
+    time.start();
+    while(time.elapsed() < 50){
+        qApp->processEvents();
     }
 
     foreach (ProcessItem* pi, readyProcesses){
@@ -90,8 +112,33 @@ void PetriEmulator::nextStep(DiagramScene *scene)
     }
 }
 
-void PetriEmulator::previousStep(DiagramScene *scene)
+void PetriEmulator::Emulate()
 {
-
+    QTime time;
+    _isWork = true;
+    do{
+        nextStep();
+        time.start();
+        while(time.elapsed() < 100){
+            qApp->processEvents();
+        }
+    }while(_isWork);
+    _isWork = false;
 }
+
+void PetriEmulator::setWork(bool val)
+{
+    _isWork = val;
+}
+
+bool PetriEmulator::isWork()
+{
+    return _isWork;
+}
+
+
+
+
+
+
 

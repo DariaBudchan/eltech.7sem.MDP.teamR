@@ -2,21 +2,25 @@
 #define PETRIEMULATOR_H
 
 #include <QObject>
+#include <QTime>
+#include <QCoreApplication>
 
 #include "diagramscene.h"
 
 class PetriEmulator : public QObject
 {
     Q_OBJECT
+    bool _isWork;
+    DiagramScene* scene;
 public:
-    explicit PetriEmulator(QObject *parent = 0);
+    explicit PetriEmulator(DiagramScene* scene, QObject *parent = 0);
     ~PetriEmulator();
-    bool isValid(DiagramScene* scene);
-    void nextStep(DiagramScene* scene);
-    void previousStep(DiagramScene* scene);
+    bool isValid();
+    void nextStep();
+    void Emulate();
+    void setWork(bool val);
+    bool isWork();
 signals:
-
-public slots:
 };
 
 #endif // PETRIEMULATOR_H

@@ -16,6 +16,7 @@
 class ConditionItem : public QGraphicsEllipseItem
 {
     unsigned int current_value;
+    unsigned int max_value;
     QList<ArrowItem*> arrows;
 public:
     enum {Type = UserType+2};
@@ -24,6 +25,7 @@ public:
     void increaseValue();
     void decreaseValue();
     void setValue(unsigned int value);
+    unsigned int maxValue();
     unsigned int getValue();
 
     void removeArrow(ArrowItem* arrow);

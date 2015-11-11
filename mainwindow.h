@@ -14,8 +14,10 @@
 #include <QAction>
 #include <QToolBar>
 #include <QIcon>
+#include <QCloseEvent>
 
 #include "diagramscene.h"
+#include "petriemulator.h"
 
 class MainWindow : public QMainWindow
 {
@@ -23,6 +25,7 @@ class MainWindow : public QMainWindow
 
     DiagramScene* scene;
     QGraphicsView* view;
+    PetriEmulator* emulator;
 
     QToolBox* toolBox;
     QButtonGroup* itemsButtonGroup;
@@ -38,6 +41,7 @@ class MainWindow : public QMainWindow
     QAction* itemDelete;
     QAction* itemConditionInc;
     QAction* itemConditionDec;
+    QAction* itemConditionReset;
     QAction* sceneNew;
     QAction* sceneStepForward;
     QAction* sceneStartEmulation;
@@ -61,10 +65,13 @@ private slots:
     void sceneLine();
     void conditionInc();
     void conditionDec();
+    void conditionReset();
     void New();
     void StepForward();
     void StartEmulation();
     void StopEmulation();
+protected:
+    void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
 public:
     MainWindow();
     ~MainWindow();
