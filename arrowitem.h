@@ -17,15 +17,15 @@
 
 class ArrowItem : public QGraphicsLineItem
 {
-    QGraphicsItem* startItem;
-    QGraphicsItem* endItem;
+    QGraphicsItem* startItem; //начальный объект
+    QGraphicsItem* endItem; //конечный объект
     QPolygonF arrowHead;
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 public:
-    enum {Type = UserType + 3};
-    enum ArrowType{fromCondition, toCondition};
+    enum {Type = UserType + 3};  //тип объекта, для корректного преобразования класса
+    enum ArrowType{fromCondition, toCondition}; //тип связи (направление)
     ArrowItem(QGraphicsItem* start, QGraphicsItem* end, QGraphicsItem* parent = 0);
     int type() const Q_DECL_OVERRIDE {return Type;}
     QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -33,8 +33,8 @@ public:
     QGraphicsItem* getStart(){return startItem;}
     QGraphicsItem* getEnd(){return endItem;}
     ArrowType arrowType();
-    void disconnect();
-    void updatePosition();
+    void disconnect(); //отсоединение стрелки
+    void updatePosition(); //обновление позиции
     ~ArrowItem();
 };
 

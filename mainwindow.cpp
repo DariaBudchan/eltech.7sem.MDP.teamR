@@ -248,7 +248,7 @@ void MainWindow::StartEmulation()
         return;
 
     isOnWork = true;
-    emulator->Emulate();
+    emulator->emulate();
     emulator->setWork(false);
     isOnWork = false;
 }

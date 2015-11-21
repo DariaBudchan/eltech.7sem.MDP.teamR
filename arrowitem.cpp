@@ -9,12 +9,16 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     if (startItem->collidesWithItem(endItem))
         return;
-
+    /*
+     * Установка цвета линии и размера указателя
+     */
     painter->setPen(pen());
     painter->setBrush(Qt::black);
     painter->drawLine(this->line());
     qreal arrowSize = 9;
-
+    /*
+     *определение точки пересечения линни стрелки и окружности, для корректного размещения указателя стрелки
+     */
     if(ConditionItem* cs = dynamic_cast<ConditionItem*> (endItem)){
         QPointF endPoint = cs->pos();
         QPointF startPoint = startItem->pos();
@@ -26,7 +30,9 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         endPoint = endPoint-QPointF(25*_cos, 25*_sin);
         setLine(endPoint.x(), endPoint.y(), startPoint.x(), startPoint.y());
     }
-
+    /*
+     *определение точки пересечения линии стрелки и прямоугольника, для корректного размещения указателя стрелки
+     */
     if(ProcessItem* ps = dynamic_cast<ProcessItem*> (endItem)){
         QPointF endPoint = ps->pos();
         QPointF startPoint = startItem->pos();
@@ -48,7 +54,9 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         setLine(endPoint.x(), endPoint.y(), startPoint.x(), startPoint.y());
     }
 
-
+    /*
+     *определение наклона стрелки и отрисовка указателя
+     */
     double angle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0)
         angle = (PI * 2) - angle;

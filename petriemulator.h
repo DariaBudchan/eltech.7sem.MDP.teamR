@@ -10,16 +10,16 @@
 class PetriEmulator : public QObject
 {
     Q_OBJECT
-    bool _isWork;
-    DiagramScene* scene;
+    bool _isWork; //режим работы, true - работает, false - остановка
+    DiagramScene* scene; //свена, на которой надо произвести эмуляцию
 public:
     explicit PetriEmulator(DiagramScene* scene, QObject *parent = 0);
     ~PetriEmulator();
-    bool isValid();
-    void nextStep();
-    void Emulate();
-    void setWork(bool val);
-    bool isWork();
+    bool isValid(); //проверка корректности сети Петри
+    void nextStep(); // выполинть следующий шаг
+    void emulate(); // запустить эмеляцию
+    void setWork(bool val); //установка режима работы
+    bool isWork(); // проверка, работает ли эмелятор
 signals:
 };
 

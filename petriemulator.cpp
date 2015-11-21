@@ -13,6 +13,11 @@ PetriEmulator::~PetriEmulator()
 
 bool PetriEmulator::isValid()
 {
+    /*
+     * проверка всех объектов состояний и переходов
+     * если состояние, проверяем наличие связей
+     * если переход, проверяем чтобы были связи входящие и выходящие
+     */
     foreach (QGraphicsItem* item, scene->items()){
         switch (item->type()) {
         case ConditionItem::Type:
@@ -37,16 +42,19 @@ bool PetriEmulator::isValid()
 
 void PetriEmulator::nextStep()
 {
-    QList<ConditionItem*> readyConditions;
+    QList<ConditionItem*> readyConditions; //готовые состояния
     readyConditions.clear();
 
-    QList<ProcessItem*> readyProcesses;
+    QList<ProcessItem*> readyProcesses; //переходы который должны быть выполнены
     readyProcesses.clear();
 
     bool flag = false;
 
     foreach (QGraphicsItem* item, scene->items()){
         flag = false;
+        /*
+         * проверка, готов ли переход выполниться
+         */
         if(ProcessItem* pi = dynamic_cast<ProcessItem*> (item)){
             QList<ArrowItem*> temp_arrows = pi->arrowsFromCondition();
             QList<ConditionItem*> temp_conditions;
@@ -63,22 +71,27 @@ void PetriEmulator::nextStep()
                     }
                 }
             }
-
+            /*
+             *проверка, может ли выполниться переход
+             */
             temp_arrows = pi->arrowsToCondition();
             foreach (ArrowItem* arrow, temp_arrows) {
                 if(ConditionItem* ci3 = dynamic_cast<ConditionItem*> (arrow->getEnd())){
                     if(ci3->getValue() == ci3->maxValue()){
                         flag = true;
-                        temp_conditions.clear();
-                        //_isWork = false;
+                        temp_conditions.clear();                        
                         break;
                     }
                 }
             }
-
+            /*
+             *если переход не выполним, переход дальше
+             */
             if(flag)
                 continue;
-
+            /*
+             * если переход выполним, дополняем множесвто готовых состояний  и переходов
+             */
             foreach (ConditionItem* ci2, temp_conditions){
                 if(!readyConditions.contains(ci2)){
                     readyConditions.append(ci2);
@@ -89,19 +102,23 @@ void PetriEmulator::nextStep()
         }
     }
 
-    if(readyProcesses.count() <= 0)
+    if(readyProcesses.count() <= 0) //если нет готовых состояний (а занчит и переходов), завершаем работу
         _isWork = false;
-
+    /*
+     * уменьшение маркеров готовых состояний
+     */
     foreach (ConditionItem* ci, readyConditions){
         ci->decreaseValue();
     }
 
     QTime time;
     time.start();
-    while(time.elapsed() < 50){
+    while(time.elapsed() < 150){
         qApp->processEvents();
     }
-
+    /*
+     * увеличение маркеров в следующих состояних
+     */
     foreach (ProcessItem* pi, readyProcesses){
         QList<ArrowItem*> arrows = pi->arrowsToCondition();
         foreach (ArrowItem* arrow, arrows){
@@ -112,14 +129,17 @@ void PetriEmulator::nextStep()
     }
 }
 
-void PetriEmulator::Emulate()
+void PetriEmulator::emulate()
 {
+    /*
+     *эмуляцию, выполнение последовательных шагов, пока сеть не придет в конечное состояние или не будет остановлена
+     */
     QTime time;
     _isWork = true;
     do{
         nextStep();
         time.start();
-        while(time.elapsed() < 100){
+        while(time.elapsed() < 650){
             qApp->processEvents();
         }
     }while(_isWork);
