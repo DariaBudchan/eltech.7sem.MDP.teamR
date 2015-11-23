@@ -108,11 +108,6 @@ void MainWindow::createScene()
 
 void MainWindow::itemsButtonClicked(int id)
 {
-    /*QList<QAbstractButton*> buttons = itemsButtonGroup->buttons();
-    foreach (QAbstractButton* button, buttons) {
-        if(itemsButtonGroup->button(id) != button)
-            button->setChecked(false);
-    }*/
     if(isOnWork)
         return;
 

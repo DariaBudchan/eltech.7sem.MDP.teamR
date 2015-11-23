@@ -50,23 +50,32 @@ class MainWindow : public QMainWindow
     bool isOnWork;
 
     QToolButton* createToolBoxButton(QString text, int type);
-    void deselect();
-    void createActions();
-    void createToolBox();
-    void createToolbars();
-    void createScene();
+    void deselect(); //снятие выделения с кнопок
+    void createActions(); //создание actions
+    void createToolBox(); //создание меню объектов
+    void createToolbars(); //создание панели управления
+    void createScene(); //создание сцены
 
 private slots:
+    /*
+     *функции для работы со сценой
+     */
     void itemsButtonClicked(int id);
     void itemInserted(QGraphicsItem* item);
     void itemSelected(QGraphicsItem* item);
     void deleteItem();
     void sceneMove();
     void sceneLine();
+    void New();
+    /*
+     *функции для работы с состояниями
+     */
     void conditionInc();
     void conditionDec();
     void conditionReset();
-    void New();
+    /*
+     *функции для работы с эмулятором
+     */
     void StepForward();
     void StartEmulation();
     void StopEmulation();
