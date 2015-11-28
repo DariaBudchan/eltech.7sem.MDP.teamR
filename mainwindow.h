@@ -18,6 +18,7 @@
 
 #include "diagramscene.h"
 #include "petriemulator.h"
+#include "testing.h"
 
 class MainWindow : public QMainWindow
 {

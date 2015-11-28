@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     arrowitem.cpp \
     diagramscene.cpp \
     textitem.cpp \
-    petriemulator.cpp
+    petriemulator.cpp \
+    testing.cpp
 
 HEADERS  += mainwindow.h \
     conditionitem.h \
@@ -27,4 +28,5 @@ HEADERS  += mainwindow.h \
     arrowitem.h \
     diagramscene.h \
     textitem.h \
-    petriemulator.h
+    petriemulator.h \
+    testing.h
