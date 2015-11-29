@@ -136,5 +136,81 @@ void testing::startTesting()
 
     conItem2->increaseValue();
 
-    //emulator->emulate();
+    qDebug() << "First test start.";
+    for(int i = 0; i < 52; i++)
+    {
+        emulator->nextStep();
+        scene->update();
+        if(i == 1) continue; // It is correct behavior
+        qDebug() << (i+1) << ")" << firstTest(conItem2, conItem4, conItem5);
+    }
+    qDebug() << "First test finish.";
+
+    qDebug() << "Second test start.";
+    for(int i = 0; i < 50; i++)
+    {
+        emulator->nextStep();
+        scene->update();
+        qDebug() << (i+1) << ")" << secondTest(conItem1, conItem2);
+    }
+    qDebug() << "Second test finish.";
+
+    qDebug() << "Third test start.";
+    for(int i = 0; i < 50; i++)
+    {
+        emulator->nextStep();
+        scene->update();
+        qDebug() << (i+1) << ")" << thirdTest(conItem1, conItem2, conItem3, conItem4, conItem5);
+    }
+    qDebug() << "Third test finish.";
+}
+
+QString testing::thirdTest(ConditionItem* conItem1 , ConditionItem* conItem2, ConditionItem* conItem3,
+                  ConditionItem* conItem4, ConditionItem* conItem5)
+{
+    if(emulator->isValid()){
+        if((conItem1->getValue() == 51) && (conItem2->getValue() == 0) && (conItem3->getValue() == 0) &&
+                (conItem4->getValue() == 99) && (conItem5->getValue() == 50)){
+            return "Test step pass !";
+        }
+        else{
+            return "Test step fail !";
+        }
+    }
+    else{
+        return "Test valid fail !";
+    }
+    return "No value";
+}
+
+QString testing::secondTest(ConditionItem* conItem1 , ConditionItem* conItem2)
+{
+    if(emulator->isValid()){
+        if((conItem1->getValue() + conItem2->getValue()) == 51){
+            return "Test step pass !";
+        }
+        else{
+            return "Test step fail !";
+        }
+    }
+    else{
+        return "Test valid fail !";
+    }
+    return "No value";
+}
+
+QString testing::firstTest(ConditionItem* conItem2 , ConditionItem* conItem4, ConditionItem* conItem5)
+{
+    if(emulator->isValid()){
+        if((conItem2->getValue() + conItem5->getValue()) == conItem4->getValue()){
+            return "Test step pass !";
+        }
+        else{
+            return "Test step fail !";
+        }
+    }
+    else{
+        return "Test valid fail !";
+    }
+    return "No value";
 }

@@ -16,7 +16,10 @@ class testing : public QMainWindow
     bool isOnWork;
 public:
     testing();
-private slots:
+    QString firstTest(ConditionItem* conItem2 , ConditionItem* conItem4, ConditionItem* conItem5);
+    QString secondTest(ConditionItem* conItem1 , ConditionItem* conItem2);
+    QString thirdTest(ConditionItem* conItem1 , ConditionItem* conItem2, ConditionItem* conItem3,
+                      ConditionItem* conItem4, ConditionItem* conItem5);
     void startTesting();
 };
 
