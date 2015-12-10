@@ -15,7 +15,10 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
-
+/*
+ * Увеличиваем кол-во меток на одну
+ * (Ограничение в 99 меток)
+ */
 void ConditionItem::increaseValue()
 {
     if(current_value < 99){
@@ -23,7 +26,9 @@ void ConditionItem::increaseValue()
     }
     contectDraw(current_value);
 }
-
+/* Уменьшаем кол-во меток на одну
+ * (В отрицательные значения уйти, естественно, не можем)
+ */
 void ConditionItem::decreaseValue()
 {
     if(current_value != 0){
@@ -89,7 +94,9 @@ void ConditionItem::contectDraw(unsigned int value)
     }
 
     QGraphicsEllipseItem* elitem;
-
+/*
+ * Одна метка - просто в центре окружности
+ */
     if(value == 1){
         elitem = new QGraphicsEllipseItem();
         elitem->setParentItem(this);
@@ -98,14 +105,19 @@ void ConditionItem::contectDraw(unsigned int value)
         elitem->setPen(QPen(QColor::fromRgbF(0,0,0)));
         return;
     }
-
+/*
+ * Более 4 меток - отображаем цифру, равную кол-ву меток
+ * (Для этого - класс TextItem)
+ */
     if(value >= 5){
         TextItem* text = new TextItem(30,30,QString::number(value));
         text->setParentItem(this);
         text->setPos(0,0);
         return;
     }
-
+/* Если кол-во меток от 1 до 4,
+ * равномерно распределяем их по окружности.
+ */
     double r = 13;
     double angle = 0;
     double angle_step = 2*PI/value;

@@ -15,11 +15,11 @@
 
 class ConditionItem : public QGraphicsEllipseItem
 {
-    unsigned int current_value;
-    unsigned int max_value;
+    unsigned int current_value; // кол-ве меток в позиции
+    unsigned int max_value; // ограничим кол-во меток
     QList<ArrowItem*> arrows;
 public:
-    enum {Type = UserType+2};
+    enum {Type = UserType+2}; //для корректного преобразования класса
     ConditionItem(QGraphicsItem* parent = 0);
     int type() const Q_DECL_OVERRIDE {return Type;}
     void increaseValue();
@@ -32,7 +32,7 @@ public:
     void removeArrows();
     void addArrow(ArrowItem* arrow);
     QList<ArrowItem*> getArrows();
-    void contectDraw(unsigned int value);
+    void contectDraw(unsigned int value); // отрисовка меток в позиции (точками либо цифрой)
 
     void updateItem();
 

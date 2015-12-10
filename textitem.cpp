@@ -10,7 +10,9 @@ TextItem::TextItem(int w, int h, QString str, QGraphicsItem *parent):
     Font.setBold(true);
     Font.setPixelSize(height*0.75);
 }
-
+    /*
+     * при количестве меток в состоянии >4 будет выводиться цифра (а не точки)
+     */
 void TextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE
 {
     painter->setFont(Font);

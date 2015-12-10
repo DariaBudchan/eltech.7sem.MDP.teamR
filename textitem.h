@@ -10,7 +10,7 @@
 class TextItem : public QGraphicsRectItem
 {
 public:
-    enum {Type = UserType+100};
+    enum {Type = UserType+100}; // для корректного преобразования типов
     QFont Font;
     TextItem(int w, int h, QString str = "", QGraphicsItem* parent = 0);
 protected:
@@ -19,7 +19,7 @@ protected:
 private:
     int width;
     int height;
-    QString text;
+    QString text; // Цифра - количество меток в состоянии
 };
 
 #endif // TEXTITEM_H
