@@ -35,7 +35,7 @@ void MainWindow::createActions(){
     itemConditionDec = new QAction("Decrease", this);
     connect(itemConditionDec, SIGNAL(triggered()),
             this, SLOT(conditionDec()));
-    itemConditionReset = new QAction("Rest", this);
+    itemConditionReset = new QAction("Reset", this);
     connect(itemConditionReset, SIGNAL(triggered()),
             this, SLOT(conditionReset()));
     sceneNew = new QAction("New", this);
@@ -222,13 +222,15 @@ void MainWindow::New()
 }
 
 void MainWindow::StepForward()
-{
+{    
     if(isOnWork)
         return;
 
-    isOnWork = true;
     if(!emulator->isValid())
        return;
+
+    isOnWork = true;
+
     emulator->nextStep();
     isOnWork = false;
     emulator->setWork(false);
@@ -241,6 +243,9 @@ void MainWindow::StartEmulation()
 
     if(isOnWork)
         return;
+
+    if(!emulator->isValid())
+       return;
 
     isOnWork = true;
     emulator->emulate();

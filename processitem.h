@@ -13,7 +13,6 @@
 
 class ProcessItem : public QGraphicsRectItem
 {
-    unsigned int current_value;
     QList<ArrowItem*> arrows;
 public:
     enum {Type = UserType+1};
