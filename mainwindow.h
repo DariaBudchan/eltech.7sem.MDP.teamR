@@ -15,6 +15,7 @@
 #include <QToolBar>
 #include <QIcon>
 #include <QCloseEvent>
+#include <QStatusBar>
 
 #include "diagramscene.h"
 #include "petriemulator.h"

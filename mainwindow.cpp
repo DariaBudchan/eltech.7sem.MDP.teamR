@@ -112,6 +112,7 @@ void MainWindow::itemsButtonClicked(int id)
         return;
 
     scene->setMode(DiagramScene::Draw);
+    statusBar()->showMessage("Mode: draw");
     switch (id) {
     case ProcessItem::Type:
     case ConditionItem::Type:
@@ -119,6 +120,7 @@ void MainWindow::itemsButtonClicked(int id)
         break;
     default:
         scene->setMode(DiagramScene::Move);
+        statusBar()->showMessage("Mode: move");
         break;
     }
 }
@@ -127,6 +129,7 @@ void MainWindow::itemInserted(QGraphicsItem *item)
 {
     deselect();
     scene->setMode(DiagramScene::Move);
+    statusBar()->showMessage("Mode: move");
 }
 
 void MainWindow::itemSelected(QGraphicsItem *item)
@@ -167,6 +170,7 @@ void MainWindow::sceneMove()
 {
     deselect();
     scene->setMode(DiagramScene::Move);
+    statusBar()->showMessage("Mode: move");
 }
 
 void MainWindow::sceneLine()
@@ -175,6 +179,7 @@ void MainWindow::sceneLine()
         return;
     deselect();
     scene->setMode(DiagramScene::Line);
+    statusBar()->showMessage("Mode: connect");
 }
 
 void MainWindow::conditionInc()
@@ -230,10 +235,12 @@ void MainWindow::StepForward()
        return;
 
     isOnWork = true;
-
+    sceneMove();
+    statusBar()->showMessage("Emulating...");
     emulator->nextStep();
     isOnWork = false;
     emulator->setWork(false);
+    statusBar()->showMessage("Emulating ended. Mode: move");
     scene->update();
 }
 
@@ -248,15 +255,21 @@ void MainWindow::StartEmulation()
        return;
 
     isOnWork = true;
+    sceneMove();
+    statusBar()->showMessage("Emulating...");
     emulator->emulate();
     emulator->setWork(false);
     isOnWork = false;
+    statusBar()->showMessage("Emulating ended. Mode: move");
+    scene->update();
 }
 
 void MainWindow::StopEmulation()
 {
     isOnWork = false;
     emulator->setWork(false);
+    sceneMove();
+    statusBar()->showMessage("Emulating ended. Mode: move");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -290,6 +303,8 @@ MainWindow::MainWindow()
     isOnWork = false;
     emulator = new PetriEmulator(scene, this);
     emulator->setWork(false);
+
+    statusBar()->showMessage("Mode: move");
 }
 
 MainWindow::~MainWindow()
