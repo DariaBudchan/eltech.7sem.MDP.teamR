@@ -21,7 +21,7 @@ ConditionItem::ConditionItem(QGraphicsItem *parent)
  */
 void ConditionItem::increaseValue()
 {
-    if(current_value < 99){
+    if(current_value <= max_value){
         current_value++;
     }
     contectDraw(current_value);
@@ -39,6 +39,8 @@ void ConditionItem::decreaseValue()
 
 void ConditionItem::setValue(unsigned int value)
 {
+    if(value < 0 || value > max_value)
+        return;
     current_value = value;
     contectDraw(current_value);
 }
