@@ -17,9 +17,9 @@ public:
     ~PetriEmulator();
     bool isValid(); //проверка корректности сети Петри
     void nextStep(); // выполинть следующий шаг
-    void emulate(); // запустить эмеляцию
+    void emulate(); // запустить эмуляцию
     void setWork(bool val); //установка режима работы
-    bool isWork(); // проверка, работает ли эмелятор
+    bool isWork(); // проверка, работает ли эмулятор
 signals:
 };
 

@@ -12,8 +12,14 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     /*
      * Установка цвета линии и размера указателя
      */
-    painter->setPen(pen());
-    painter->setBrush(Qt::black);
+
+    if(this->isSelected()){
+        painter->setBrush(Qt::red);
+         painter->setPen(QPen(Qt::red, 3));
+    }else{
+        painter->setBrush(Qt::black);
+         painter->setPen(QPen(Qt::black, 2));
+    }
     painter->drawLine(this->line());
     qreal arrowSize = 9;
     /*
