@@ -227,15 +227,18 @@ void MainWindow::New()
 }
 
 void MainWindow::StepForward()
-{    
+{
+    sceneMove();
+
     if(isOnWork)
         return;
 
-    if(!emulator->isValid())
+    if(!emulator->isValid()){
+       statusBar()->showMessage("Petri Net not correct. Mode: move");
        return;
+    }
 
     isOnWork = true;
-    sceneMove();
     statusBar()->showMessage("Emulating...");
     emulator->nextStep();
     isOnWork = false;
@@ -251,11 +254,12 @@ void MainWindow::StartEmulation()
     if(isOnWork)
         return;
 
-    if(!emulator->isValid())
+    if(!emulator->isValid()){
+       statusBar()->showMessage("Petri Net not correct. Mode: move");
        return;
+    }
 
     isOnWork = true;
-    sceneMove();
     statusBar()->showMessage("Emulating...");
     emulator->emulate();
     emulator->setWork(false);
@@ -266,6 +270,8 @@ void MainWindow::StartEmulation()
 
 void MainWindow::StopEmulation()
 {
+    if(isOnWork == false)
+        return;
     isOnWork = false;
     emulator->setWork(false);
     sceneMove();
